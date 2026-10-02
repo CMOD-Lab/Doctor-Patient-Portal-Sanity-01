@@ -46,6 +46,40 @@
 			<version>3.0.0</version>
 		</dependency>
 
+		<!-- Spring Session Data Redis - Externalizes HttpSession to Amazon ElastiCache (Redis) -->
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-data-redis</artifactId>
+			<version>2.7.4</version>
+		</dependency>
+
+		<!-- Spring Context for ApplicationContext support in non-Spring-Boot apps -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>5.3.31</version>
+		</dependency>
+
+		<!-- Spring Web for ContextLoaderListener -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>5.3.31</version>
+		</dependency>
+
+		<!-- Lettuce Redis client for Amazon ElastiCache connectivity -->
+		<dependency>
+			<groupId>io.lettuce</groupId>
+			<artifactId>lettuce-core</artifactId>
+			<version>6.2.7.RELEASE</version>
+		</dependency>
+
+		<!-- Spring Data Redis -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<version>2.7.18</version>
+		</dependency>
 
 	</dependencies>
 	<build>

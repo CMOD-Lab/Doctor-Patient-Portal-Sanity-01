@@ -7,6 +7,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+// cz-java-0069: HttpSession is transparently backed by Amazon ElastiCache (Redis)
+// via Spring Session (spring-session-data-redis + DelegatingFilterProxy in web.xml).
+// Sessions survive container restarts and scale horizontally on EKS.
 import javax.servlet.http.HttpSession;
 
 import com.hms.dao.SpecialistDAO;
@@ -23,6 +26,8 @@ public class SpecialistServlet extends HttpServlet{
 		SpecialistDAO specialistDAO = new SpecialistDAO(DBConnection.getConn());
 		boolean f = specialistDAO.addSpecialist(specialistName);
 		
+		// cz-java-0069: Session is backed by Amazon ElastiCache (Redis) via Spring Session
+		// - safe for horizontal scaling on EKS; session survives container restarts.
 		HttpSession session = req.getSession();
 		
 		if (f==true) {

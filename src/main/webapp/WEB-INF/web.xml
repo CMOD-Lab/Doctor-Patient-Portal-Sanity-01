@@ -4,6 +4,39 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+
+  <!-- Spring ApplicationContext configuration for Spring Session + Redis -->
+  <context-param>
+    <param-name>contextClass</param-name>
+    <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+  </context-param>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>com.hms.config.RedisSessionConfig</param-value>
+  </context-param>
+
+  <!-- Spring ContextLoaderListener bootstraps the ApplicationContext -->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+  <!--
+    Spring Session Filter: transparently replaces javax.servlet.http.HttpSession
+    with a Redis-backed session stored in Amazon ElastiCache.
+    This enables horizontal scaling on EKS without session loss on container restart.
+    Rule: cz-java-0063 - Server-side Sessions
+  -->
+  <filter>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+  </filter-mapping>
+
   <servlet>
   	<servlet-name>myuserServlet</servlet-name>
   	<display-name>myuserServlet</display-name>
@@ -16,6 +49,15 @@
   	<description></description>
   	<servlet-class>com.hms.user.servlet.MyNewServlet</servlet-class>
   </servlet>
+
+  <!-- Health check endpoint for Kubernetes liveness/readiness probes -->
+  <servlet>
+    <servlet-name>HealthServlet</servlet-name>
+    <display-name>HealthServlet</display-name>
+    <description>Container health check endpoint</description>
+    <servlet-class>com.hms.health.HealthServlet</servlet-class>
+  </servlet>
+
   <servlet-mapping>
   	<servlet-name>myuserServlet</servlet-name>
   	<url-pattern>/myuserServlet</url-pattern>
@@ -23,5 +65,9 @@
   <servlet-mapping>
   	<servlet-name>MyNewServlet</servlet-name>
   	<url-pattern>/MyNewServletRegisterUser</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>HealthServlet</servlet-name>
+    <url-pattern>/health</url-pattern>
   </servlet-mapping>
 </web-app>
