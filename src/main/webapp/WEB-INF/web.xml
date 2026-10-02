@@ -4,6 +4,31 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+
+  <!-- cz-java-0069: Spring Session Redis filter - externalizes HttpSession to Amazon ElastiCache (Redis)
+       This filter intercepts all requests and transparently replaces the in-memory HttpSession
+       with a Redis-backed session, enabling horizontal scaling and container restart resilience on EKS.
+       Requires REDIS_HOST and REDIS_PORT environment variables to be set. -->
+  <filter>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+  </filter-mapping>
+
+  <!-- cz-java-0069: Spring context loader for Redis session configuration -->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/spring-session-config.xml</param-value>
+  </context-param>
+
   <servlet>
   	<servlet-name>myuserServlet</servlet-name>
   	<display-name>myuserServlet</display-name>
@@ -16,6 +41,19 @@
   	<description></description>
   	<servlet-class>com.hms.user.servlet.MyNewServlet</servlet-class>
   </servlet>
+
+  <!-- health-check-endpoint: Health check servlet for container liveness probes -->
+  <servlet>
+    <servlet-name>HealthCheckServlet</servlet-name>
+    <display-name>HealthCheckServlet</display-name>
+    <description>Health check endpoint for container orchestration</description>
+    <servlet-class>com.hms.servlet.HealthCheckServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HealthCheckServlet</servlet-name>
+    <url-pattern>/health</url-pattern>
+  </servlet-mapping>
+
   <servlet-mapping>
   	<servlet-name>myuserServlet</servlet-name>
   	<url-pattern>/myuserServlet</url-pattern>

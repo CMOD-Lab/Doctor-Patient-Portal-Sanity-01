@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-//import javax.security.auth.message.callback.PrivateKeyCallback.Request;
-import javax.servlet.http.HttpSession;
+// cz-java-0063: Removed unused javax.servlet.http.HttpSession import - sessions are now managed externally via Spring Session + Redis (Amazon ElastiCache)
+// HttpSession import removed: Spring Session Redis filter handles session externalization transparently
 
 import com.hms.entity.Doctor;
 

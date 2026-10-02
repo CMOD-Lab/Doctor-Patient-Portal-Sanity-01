@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           https://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--
+        cz-java-0069: Spring Session backed by Amazon ElastiCache (Redis)
+        Replaces in-memory HttpSession with Redis-backed distributed session storage,
+        preventing session loss on container restarts or scale-out events in EKS.
+        Configure the following environment variables for your EKS deployment:
+          REDIS_HOST  - ElastiCache Redis endpoint (e.g., my-cluster.abc123.ng.0001.use1.cache.amazonaws.com)
+          REDIS_PORT  - ElastiCache Redis port (default: 6379)
+    -->
+
+    <!-- Enable resolution of ${...} placeholders from environment variables -->
+    <context:property-placeholder/>
+
+    <!-- Redis connection factory using environment variables for ElastiCache endpoint -->
+    <bean id="redisConnectionFactory"
+          class="org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory">
+        <constructor-arg name="hostName" value="${REDIS_HOST:localhost}"/>
+        <constructor-arg name="port" value="${REDIS_PORT:6379}"/>
+    </bean>
+
+    <!-- Redis template for session serialization -->
+    <bean id="redisTemplate"
+          class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="redisConnectionFactory"/>
+    </bean>
+
+    <!-- Spring Session repository backed by Redis -->
+    <bean id="sessionRepository"
+          class="org.springframework.session.data.redis.RedisIndexedSessionRepository">
+        <constructor-arg ref="redisTemplate"/>
+    </bean>
+
+    <!-- Spring Session filter bean - referenced by DelegatingFilterProxy in web.xml -->
+    <bean id="springSessionRepositoryFilter"
+          class="org.springframework.session.web.http.SessionRepositoryFilter">
+        <constructor-arg ref="sessionRepository"/>
+    </bean>
+
+</beans>
