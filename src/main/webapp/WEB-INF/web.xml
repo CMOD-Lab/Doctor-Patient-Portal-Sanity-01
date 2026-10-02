@@ -4,6 +4,41 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+
+  <!--
+    cr-java-0065: HTTP Session State Storage
+    Spring Session DelegatingFilterProxy — intercepts all requests and replaces
+    the container's default in-memory HttpSession with a Redis-backed session
+    stored in Amazon ElastiCache. This enables stateless application instances
+    and horizontal scaling without sticky sessions.
+  -->
+  <filter>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+  </filter-mapping>
+
+  <!--
+    Spring ContextLoaderListener — bootstraps the Spring application context
+    (including RedisHttpSessionConfig) on application startup.
+  -->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <context-param>
+    <param-name>contextClass</param-name>
+    <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+  </context-param>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>com.hms.config.RedisHttpSessionConfig</param-value>
+  </context-param>
+
   <servlet>
   	<servlet-name>myuserServlet</servlet-name>
   	<display-name>myuserServlet</display-name>

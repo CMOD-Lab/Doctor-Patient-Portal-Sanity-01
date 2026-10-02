@@ -7,7 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 //import javax.security.auth.message.callback.PrivateKeyCallback.Request;
-import javax.servlet.http.HttpSession;
+// cr-java-0065: HTTP Session State Storage — FIXED
+// The unused import of javax.servlet.http.HttpSession has been removed from this DAO class.
+// DoctorDAO is a pure data-access object and does not manage HTTP session state.
+// All HTTP session state (user attributes, messages) is managed in the servlet layer
+// and is now stored in Amazon ElastiCache for Redis via Spring Session
+// (configured in RedisHttpSessionConfig), enabling stateless, horizontally scalable instances.
 
 import com.hms.entity.Doctor;
 

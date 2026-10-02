@@ -2,10 +2,25 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.hms</groupId>
 	<artifactId>Doctor-Patient-Portal</artifactId>
-	<packaging>war</packaging>
+	<!-- cr-java-0107 (Line 5): WAR Packaging → Executable JAR with embedded Tomcat
+	     Changed from 'war' to 'jar' to produce a self-contained executable JAR.
+	     This enables direct container deployment on Amazon ECS, EKS, or AWS Fargate
+	     without requiring an external application server (Tomcat, JBoss, WebLogic). -->
+	<packaging>jar</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Doctor-Patient-Portal Maven Webapp</name>
 	<url>http://maven.apache.org</url>
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<hikaricp.version>4.0.3</hikaricp.version>
+		<aws.sdk.version>2.25.11</aws.sdk.version>
+		<spring.session.version>2.7.4</spring.session.version>
+		<spring.data.redis.version>2.7.14</spring.data.redis.version>
+		<lettuce.version>6.2.7.RELEASE</lettuce.version>
+		<spring.web.version>5.3.31</spring.web.version>
+		<tomcat.embedded.version>9.0.85</tomcat.embedded.version>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -14,11 +29,32 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Servlet API - scope changed from 'provided' to 'compile' because embedded Tomcat
+		     supplies the servlet container; no external app server is needed -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>4.0.1</version>
-			<scope>provided</scope>
+		</dependency>
+
+		<!-- cr-java-0107: Embedded Apache Tomcat - replaces external application server.
+		     Enables self-contained executable JAR deployment on Amazon ECS/EKS/Fargate. -->
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-core</artifactId>
+			<version>${tomcat.embedded.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<version>${tomcat.embedded.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-websocket</artifactId>
+			<version>${tomcat.embedded.version}</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
@@ -42,14 +78,75 @@
 			<version>3.0.0</version>
 		</dependency>
 
+		<!-- HikariCP Connection Pool (cr-java-0073: Direct JDBC Connections) -->
+		<!-- Replaces raw DriverManager.getConnection() with a managed connection pool -->
+		<!-- Compatible with Amazon RDS Proxy for cloud-optimized database connections -->
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>${hikaricp.version}</version>
+		</dependency>
+
+		<!-- AWS Secrets Manager SDK (cr-java-0073 / cr-java-0113: Externalized Secrets) -->
+		<!-- Replaces hardcoded credentials with AWS Secrets Manager integration -->
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>secretsmanager</artifactId>
+			<version>${aws.sdk.version}</version>
+		</dependency>
+
+		<!-- AWS SDK HTTP client required by Secrets Manager SDK -->
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>apache-client</artifactId>
+			<version>${aws.sdk.version}</version>
+		</dependency>
 
 	</dependencies>
 	<build>
 		<plugins>
+			<!-- cr-java-0107 (Line 55): WAR Packaging → Executable JAR with embedded Tomcat
+			     Replaced maven-war-plugin with maven-assembly-plugin to produce a
+			     self-contained executable JAR that bundles embedded Tomcat.
+			     This enables direct container deployment on Amazon ECS, EKS, or
+			     AWS Fargate without requiring an external application server. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>3.3.1</version>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.6.0</version>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<archive>
+						<manifest>
+							<mainClass>com.hms.EmbeddedTomcatLauncher</mainClass>
+						</manifest>
+					</archive>
+					<finalName>Doctor-Patient-Portal</finalName>
+					<appendAssemblyId>false</appendAssemblyId>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.3.0</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>com.hms.EmbeddedTomcatLauncher</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
 			</plugin>
 		</plugins>
 		<finalName>Doctor-Patient-Portal</finalName>
