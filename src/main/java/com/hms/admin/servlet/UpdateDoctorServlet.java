@@ -13,6 +13,26 @@ import com.hms.dao.DoctorDAO;
 import com.hms.db.DBConnection;
 import com.hms.entity.Doctor;
 
+/**
+ * Handles update-doctor requests from the admin panel.
+ *
+ * <p><strong>Cloud-Native Session Management (cr-java-0065):</strong>
+ * Session state is stored in Amazon ElastiCache for Redis via Spring Session
+ * ({@link com.hms.config.RedisSessionConfig}).  The {@code springSessionRepositoryFilter}
+ * registered by {@link com.hms.config.SpringSessionInitializer} transparently
+ * replaces the container-managed {@link HttpSession} with a Redis-backed
+ * session, so calls to {@code req.getSession()} below operate against the
+ * distributed Redis store rather than server-local memory.  This eliminates
+ * server affinity and allows the application to scale horizontally across
+ * multiple instances without session data loss.
+ *
+ * <p>Required environment variables for Redis/ElastiCache:
+ * <ul>
+ *   <li>{@code REDIS_HOST}     – ElastiCache primary endpoint (default: localhost)</li>
+ *   <li>{@code REDIS_PORT}     – Redis port (default: 6379)</li>
+ *   <li>{@code REDIS_PASSWORD} – Redis AUTH token (optional)</li>
+ * </ul>
+ */
 @WebServlet("/updateDoctor")
 public class UpdateDoctorServlet extends HttpServlet {
 
@@ -29,9 +49,9 @@ public class UpdateDoctorServlet extends HttpServlet {
 			String email = req.getParameter("email");
 			String phone = req.getParameter("phone");
 			String password = req.getParameter("password");
-			
-			//here need to get id also...for updating the doctor details
-			//doctors will update based on respective doctor's id
+
+			// here need to get id also...for updating the doctor details
+			// doctors will update based on respective doctor's id
 			int id = Integer.parseInt(req.getParameter("id"));
 
 			Doctor doctor = new Doctor(id, fullName, dateOfBirth, qualification, specialist, email, phone, password);
@@ -40,6 +60,12 @@ public class UpdateDoctorServlet extends HttpServlet {
 
 			boolean f = docDAO.updateDoctor(doctor);
 
+			// cr-java-0065: Session is backed by Amazon ElastiCache for Redis via
+			// Spring Session. The springSessionRepositoryFilter (registered in
+			// SpringSessionInitializer) intercepts this call and returns a
+			// Redis-backed HttpSession, enabling stateless application instances
+			// with centralized, distributed session management.
+			// No server affinity (sticky sessions) is required.
 			HttpSession session = req.getSession();
 
 			if (f == true) {

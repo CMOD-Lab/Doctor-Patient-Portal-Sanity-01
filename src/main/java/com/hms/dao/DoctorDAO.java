@@ -6,8 +6,13 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-//import javax.security.auth.message.callback.PrivateKeyCallback.Request;
-import javax.servlet.http.HttpSession;
+// cr-java-0065: The unused javax.servlet.http.HttpSession import has been removed.
+// Session state management is now handled externally via Amazon ElastiCache for Redis
+// through Spring Session (see com.hms.config.RedisSessionConfig and
+// com.hms.config.SpringSessionInitializer). The springSessionRepositoryFilter
+// transparently replaces the container-managed HttpSession with a Redis-backed
+// session, enabling stateless application instances with centralized, distributed
+// session management. No HttpSession references are needed in DAO classes.
 
 import com.hms.entity.Doctor;
 

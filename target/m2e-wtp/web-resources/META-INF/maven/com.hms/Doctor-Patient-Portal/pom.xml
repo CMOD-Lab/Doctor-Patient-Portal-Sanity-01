@@ -6,6 +6,16 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Doctor-Patient-Portal Maven Webapp</name>
 	<url>http://maven.apache.org</url>
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<aws.sdk.version>1.12.529</aws.sdk.version>
+		<jackson.version>2.15.2</jackson.version>
+		<spring.session.version>2.7.4</spring.session.version>
+		<spring.data.redis.version>2.7.14</spring.data.redis.version>
+		<lettuce.version>6.2.6.RELEASE</lettuce.version>
+		<hikaricp.version>4.0.3</hikaricp.version>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -42,6 +52,81 @@
 			<version>3.0.0</version>
 		</dependency>
 
+		<!-- AWS Secrets Manager SDK — used by AwsSecretsManagerUtil to retrieve
+		     database credentials and other secrets at runtime instead of
+		     hard-coding them in source code or configuration files. -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-secretsmanager</artifactId>
+			<version>${aws.sdk.version}</version>
+		</dependency>
+
+		<!-- AWS core SDK (transitive, but declared explicitly for clarity) -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-core</artifactId>
+			<version>${aws.sdk.version}</version>
+		</dependency>
+
+		<!-- Jackson Databind — used by AwsSecretsManagerUtil to parse the
+		     JSON secret string returned by AWS Secrets Manager. -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<!-- Spring Session Data Redis — provides distributed session management
+		     backed by Amazon ElastiCache for Redis, replacing server-local
+		     HttpSession storage and enabling stateless, horizontally-scalable
+		     application instances. -->
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-data-redis</artifactId>
+			<version>${spring.session.version}</version>
+		</dependency>
+
+		<!-- Spring Data Redis — Redis client abstraction used by Spring Session. -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<version>${spring.data.redis.version}</version>
+		</dependency>
+
+		<!-- Lettuce — non-blocking Redis client used as the connection driver
+		     for Spring Data Redis / Spring Session. -->
+		<dependency>
+			<groupId>io.lettuce</groupId>
+			<artifactId>lettuce-core</artifactId>
+			<version>${lettuce.version}</version>
+		</dependency>
+
+		<!-- Spring Web — required for Spring Session's
+		     AbstractHttpSessionApplicationInitializer and the
+		     DelegatingFilterProxy that intercepts every request. -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>5.3.29</version>
+		</dependency>
+
+		<!-- Spring Context — required for @Configuration / @EnableRedisHttpSession
+		     and the ApplicationContext used by the session filter. -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>5.3.29</version>
+		</dependency>
+
+		<!-- HikariCP — high-performance JDBC connection pool used by DBConnection
+		     to manage database connections efficiently in cloud environments.
+		     Works seamlessly with Amazon RDS Proxy for optimized connection
+		     multiplexing and reduced database engine load. -->
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>${hikaricp.version}</version>
+		</dependency>
 
 	</dependencies>
 	<build>

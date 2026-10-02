@@ -14,6 +14,26 @@ import com.hms.dao.UserDAO;
 import com.hms.db.DBConnection;
 import com.hms.entity.User;
 
+/**
+ * Handles new user registration requests.
+ *
+ * <p><strong>Cloud-Native Session Management (cr-java-0065):</strong>
+ * Session state is stored in Amazon ElastiCache for Redis via Spring Session
+ * ({@link com.hms.config.RedisSessionConfig}).  The {@code springSessionRepositoryFilter}
+ * registered by {@link com.hms.config.SpringSessionInitializer} transparently
+ * replaces the container-managed {@link HttpSession} with a Redis-backed
+ * session, so calls to {@code req.getSession()} below operate against the
+ * distributed Redis store rather than server-local memory.  This eliminates
+ * server affinity and allows the application to scale horizontally across
+ * multiple instances without session data loss.
+ *
+ * <p>Required environment variables for Redis/ElastiCache:
+ * <ul>
+ *   <li>{@code REDIS_HOST}     – ElastiCache primary endpoint (default: localhost)</li>
+ *   <li>{@code REDIS_PORT}     – Redis port (default: 6379)</li>
+ *   <li>{@code REDIS_PASSWORD} – Redis AUTH token (optional)</li>
+ * </ul>
+ */
 @WebServlet("/user_register")
 public class UserRegisterServlet extends HttpServlet {
 
@@ -35,26 +55,36 @@ public class UserRegisterServlet extends HttpServlet {
 
 			// Create Connection with DB
 			UserDAO userDAO = new UserDAO(DBConnection.getConn());
-			
-			//get session
+
+			// cr-java-0065: Session is backed by Amazon ElastiCache for Redis via
+			// Spring Session. The springSessionRepositoryFilter (registered in
+			// SpringSessionInitializer) intercepts this call and returns a
+			// Redis-backed HttpSession, enabling stateless application instances
+			// with centralized, distributed session management.
+			// No server affinity (sticky sessions) is required.
 			HttpSession session = req.getSession();
-			
 
 			// call userRegister() and pass user object to insert or save user into DB.
 			boolean f = userDAO.userRegister(user); // userRegister() method return boolean type value
 
 			if (f == true) {
 
+				// cr-java-0065: Setting successMsg on the Redis-backed distributed
+				// session ensures the registration confirmation message is available
+				// on any instance that handles the redirected request.
 				session.setAttribute("successMsg", "Register Successfully");
 				resp.sendRedirect("signup.jsp");//which page you want to show this msg
 				//System.out.println("register successfull");
 				// out.println("success");
 
 			} else {
-				
+
+				// cr-java-0065: Setting errorMsg on the Redis-backed distributed
+				// session ensures the error message is available on any instance
+				// that handles the redirected request.
 				session.setAttribute("errorMsg", "Something went wrong!");
 				resp.sendRedirect("signup.jsp");//which page you want to show this msg
-				
+
 				//System.out.println("Error! Something went wrong");
 				// out.println("error");
 			}
