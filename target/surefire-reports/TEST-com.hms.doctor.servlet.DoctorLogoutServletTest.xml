@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.hms.doctor.servlet.DoctorLogoutServletTest" time="0.01" tests="5" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.hms.doctor.servlet.DoctorLogoutServletTest" time="0.008" tests="5" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -13,7 +13,7 @@
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="/app/.sdkman/candidates/java/17.0.13-tem/lib"/>
-    <property name="sun.java.command" value="/modernize-data/studio-data/TNT1001/APP747084/transformed-code/101/studio-workspace/DoctorPatientPortalSanityCMP03/target/surefire/surefirebooter-20261003074053359_3.jar /modernize-data/studio-data/TNT1001/APP747084/transformed-code/101/studio-workspace/DoctorPatientPortalSanityCMP03/target/surefire 2026-10-03T07-40-53_301-jvmRun1 surefire-20261003074053359_1tmp surefire_0-20261003074053359_2tmp"/>
+    <property name="sun.java.command" value="/modernize-data/studio-data/TNT1001/APP747084/transformed-code/101/studio-workspace/DoctorPatientPortalSanityCMP03/target/surefire/surefirebooter-20261003153822371_3.jar /modernize-data/studio-data/TNT1001/APP747084/transformed-code/101/studio-workspace/DoctorPatientPortalSanityCMP03/target/surefire 2026-10-03T15-38-22_310-jvmRun1 surefire-20261003153822371_1tmp surefire_0-20261003153822371_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/modernize-data/studio-data/TNT1001/APP747084/transformed-code/101/studio-workspace/DoctorPatientPortalSanityCMP03/target/test-classes:/modernize-data/studio-data/TNT1001/APP747084/transformed-code/101/studio-workspace/DoctorPatientPortalSanityCMP03/target/classes:/app/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.0/junit-jupiter-api-5.10.0.jar:/app/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/app/.m2/repository/org/junit/platform/junit-platform-commons/1.10.0/junit-platform-commons-1.10.0.jar:/app/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/app/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.0/junit-jupiter-engine-5.10.0.jar:/app/.m2/repository/org/junit/platform/junit-platform-engine/1.10.0/junit-platform-engine-1.10.0.jar:/app/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.0/junit-jupiter-params-5.10.0.jar:/app/.m2/repository/jakarta/servlet/jakarta.servlet-api/5.0.0/jakarta.servlet-api-5.0.0.jar:/app/.m2/repository/jakarta/servlet/jsp/jstl/jakarta.servlet.jsp.jstl-api/2.0.0/jakarta.servlet.jsp.jstl-api-2.0.0.jar:/app/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/3.0.0/jakarta.xml.bind-api-3.0.0.jar:/app/.m2/repository/com/sun/activation/jakarta.activation/2.0.0/jakarta.activation-2.0.0.jar:/app/.m2/repository/org/glassfish/web/jakarta.servlet.jsp.jstl/2.0.0/jakarta.servlet.jsp.jstl-2.0.0.jar:/app/.m2/repository/jakarta/el/jakarta.el-api/4.0.0/jakarta.el-api-4.0.0.jar:/app/.m2/repository/com/mysql/mysql-connector-j/8.2.0/mysql-connector-j-8.2.0.jar:/app/.m2/repository/com/google/protobuf/protobuf-java/3.21.9/protobuf-java-3.21.9.jar:/app/.m2/repository/org/mockito/mockito-core/5.5.0/mockito-core-5.5.0.jar:/app/.m2/repository/net/bytebuddy/byte-buddy/1.14.6/byte-buddy-1.14.6.jar:/app/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.6/byte-buddy-agent-1.14.6.jar:/app/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/app/.m2/repository/org/mockito/mockito-junit-jupiter/5.5.0/mockito-junit-jupiter-5.5.0.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -28,7 +28,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="surefire.real.class.path" value="/modernize-data/studio-data/TNT1001/APP747084/transformed-code/101/studio-workspace/DoctorPatientPortalSanityCMP03/target/surefire/surefirebooter-20261003074053359_3.jar"/>
+    <property name="surefire.real.class.path" value="/modernize-data/studio-data/TNT1001/APP747084/transformed-code/101/studio-workspace/DoctorPatientPortalSanityCMP03/target/surefire/surefirebooter-20261003153822371_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.13+11"/>
     <property name="user.name" value="studioai"/>
@@ -56,8 +56,8 @@
     <property name="java.class.version" value="61.0"/>
   </properties>
   <testcase name="doGet_setsSuccessMessage" classname="com.hms.doctor.servlet.DoctorLogoutServletTest" time="0.002"/>
-  <testcase name="doGet_executesAllStepsInOrder" classname="com.hms.doctor.servlet.DoctorLogoutServletTest" time="0.003"/>
-  <testcase name="doGet_redirectsToDoctorLoginPage" classname="com.hms.doctor.servlet.DoctorLogoutServletTest" time="0.002"/>
+  <testcase name="doGet_executesAllStepsInOrder" classname="com.hms.doctor.servlet.DoctorLogoutServletTest" time="0.002"/>
+  <testcase name="doGet_redirectsToDoctorLoginPage" classname="com.hms.doctor.servlet.DoctorLogoutServletTest" time="0.001"/>
   <testcase name="doGet_removesDoctorObjFromSession" classname="com.hms.doctor.servlet.DoctorLogoutServletTest" time="0.001"/>
-  <testcase name="doctorLogoutServlet_instantiation_createsNonNullObject" classname="com.hms.doctor.servlet.DoctorLogoutServletTest" time="0.001"/>
+  <testcase name="doctorLogoutServlet_instantiation_createsNonNullObject" classname="com.hms.doctor.servlet.DoctorLogoutServletTest" time="0.0"/>
 </testsuite>
