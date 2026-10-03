@@ -1,61 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.hms.dao.AppointmentDAOTest" time="0.287" tests="17" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.hms.dao.AppointmentDAOTest" time="0.313" tests="17" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
     <property name="java.class.path" value="/modernize-data/studio-data/TNT1001/APP747084/transformed-code/101/studio-workspace/DoctorPatientPortalSanityCMP03/target/test-classes:/modernize-data/studio-data/TNT1001/APP747084/transformed-code/101/studio-workspace/DoctorPatientPortalSanityCMP03/target/classes:/app/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.0/junit-jupiter-api-5.10.0.jar:/app/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/app/.m2/repository/org/junit/platform/junit-platform-commons/1.10.0/junit-platform-commons-1.10.0.jar:/app/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/app/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.0/junit-jupiter-engine-5.10.0.jar:/app/.m2/repository/org/junit/platform/junit-platform-engine/1.10.0/junit-platform-engine-1.10.0.jar:/app/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.0/junit-jupiter-params-5.10.0.jar:/app/.m2/repository/jakarta/servlet/jakarta.servlet-api/5.0.0/jakarta.servlet-api-5.0.0.jar:/app/.m2/repository/jakarta/servlet/jsp/jstl/jakarta.servlet.jsp.jstl-api/2.0.0/jakarta.servlet.jsp.jstl-api-2.0.0.jar:/app/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/3.0.0/jakarta.xml.bind-api-3.0.0.jar:/app/.m2/repository/com/sun/activation/jakarta.activation/2.0.0/jakarta.activation-2.0.0.jar:/app/.m2/repository/org/glassfish/web/jakarta.servlet.jsp.jstl/2.0.0/jakarta.servlet.jsp.jstl-2.0.0.jar:/app/.m2/repository/jakarta/el/jakarta.el-api/4.0.0/jakarta.el-api-4.0.0.jar:/app/.m2/repository/com/mysql/mysql-connector-j/8.2.0/mysql-connector-j-8.2.0.jar:/app/.m2/repository/com/google/protobuf/protobuf-java/3.21.9/protobuf-java-3.21.9.jar:/app/.m2/repository/org/mockito/mockito-core/5.5.0/mockito-core-5.5.0.jar:/app/.m2/repository/net/bytebuddy/byte-buddy/1.14.6/byte-buddy-1.14.6.jar:/app/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.6/byte-buddy-agent-1.14.6.jar:/app/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/app/.m2/repository/org/mockito/mockito-junit-jupiter/5.5.0/mockito-junit-jupiter-5.5.0.jar:"/>
-    <property name="java.vm.vendor" value="Amazon.com Inc."/>
+    <property name="java.vm.vendor" value="Eclipse Adoptium"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="java.vendor.url" value="https://aws.amazon.com/corretto/"/>
+    <property name="java.vendor.url" value="https://adoptium.net/"/>
     <property name="user.timezone" value="UTC"/>
     <property name="os.name" value="Linux"/>
     <property name="java.vm.specification.version" value="17"/>
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
-    <property name="sun.boot.library.path" value="/usr/lib/jvm/java-17-amazon-corretto.x86_64/lib"/>
-    <property name="sun.java.command" value="/modernize-data/studio-data/TNT1001/APP747084/transformed-code/101/studio-workspace/DoctorPatientPortalSanityCMP03/target/surefire/surefirebooter-20261003070317269_3.jar /modernize-data/studio-data/TNT1001/APP747084/transformed-code/101/studio-workspace/DoctorPatientPortalSanityCMP03/target/surefire 2026-10-03T07-03-17_211-jvmRun1 surefire-20261003070317269_1tmp surefire_0-20261003070317269_2tmp"/>
+    <property name="sun.boot.library.path" value="/app/.sdkman/candidates/java/17.0.13-tem/lib"/>
+    <property name="sun.java.command" value="/modernize-data/studio-data/TNT1001/APP747084/transformed-code/101/studio-workspace/DoctorPatientPortalSanityCMP03/target/surefire/surefirebooter-20261003074053359_3.jar /modernize-data/studio-data/TNT1001/APP747084/transformed-code/101/studio-workspace/DoctorPatientPortalSanityCMP03/target/surefire 2026-10-03T07-40-53_301-jvmRun1 surefire-20261003074053359_1tmp surefire_0-20261003074053359_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/modernize-data/studio-data/TNT1001/APP747084/transformed-code/101/studio-workspace/DoctorPatientPortalSanityCMP03/target/test-classes:/modernize-data/studio-data/TNT1001/APP747084/transformed-code/101/studio-workspace/DoctorPatientPortalSanityCMP03/target/classes:/app/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.0/junit-jupiter-api-5.10.0.jar:/app/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/app/.m2/repository/org/junit/platform/junit-platform-commons/1.10.0/junit-platform-commons-1.10.0.jar:/app/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/app/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.0/junit-jupiter-engine-5.10.0.jar:/app/.m2/repository/org/junit/platform/junit-platform-engine/1.10.0/junit-platform-engine-1.10.0.jar:/app/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.0/junit-jupiter-params-5.10.0.jar:/app/.m2/repository/jakarta/servlet/jakarta.servlet-api/5.0.0/jakarta.servlet-api-5.0.0.jar:/app/.m2/repository/jakarta/servlet/jsp/jstl/jakarta.servlet.jsp.jstl-api/2.0.0/jakarta.servlet.jsp.jstl-api-2.0.0.jar:/app/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/3.0.0/jakarta.xml.bind-api-3.0.0.jar:/app/.m2/repository/com/sun/activation/jakarta.activation/2.0.0/jakarta.activation-2.0.0.jar:/app/.m2/repository/org/glassfish/web/jakarta.servlet.jsp.jstl/2.0.0/jakarta.servlet.jsp.jstl-2.0.0.jar:/app/.m2/repository/jakarta/el/jakarta.el-api/4.0.0/jakarta.el-api-4.0.0.jar:/app/.m2/repository/com/mysql/mysql-connector-j/8.2.0/mysql-connector-j-8.2.0.jar:/app/.m2/repository/com/google/protobuf/protobuf-java/3.21.9/protobuf-java-3.21.9.jar:/app/.m2/repository/org/mockito/mockito-core/5.5.0/mockito-core-5.5.0.jar:/app/.m2/repository/net/bytebuddy/byte-buddy/1.14.6/byte-buddy-1.14.6.jar:/app/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.6/byte-buddy-agent-1.14.6.jar:/app/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/app/.m2/repository/org/mockito/mockito-junit-jupiter/5.5.0/mockito-junit-jupiter-5.5.0.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/app"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
-    <property name="java.version.date" value="2026-08-18"/>
-    <property name="java.home" value="/usr/lib/jvm/java-17-amazon-corretto.x86_64"/>
+    <property name="java.version.date" value="2024-10-15"/>
+    <property name="java.home" value="/app/.sdkman/candidates/java/17.0.13-tem"/>
     <property name="file.separator" value="/"/>
     <property name="basedir" value="/modernize-data/studio-data/TNT1001/APP747084/transformed-code/101/studio-workspace/DoctorPatientPortalSanityCMP03"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="surefire.real.class.path" value="/modernize-data/studio-data/TNT1001/APP747084/transformed-code/101/studio-workspace/DoctorPatientPortalSanityCMP03/target/surefire/surefirebooter-20261003070317269_3.jar"/>
+    <property name="surefire.real.class.path" value="/modernize-data/studio-data/TNT1001/APP747084/transformed-code/101/studio-workspace/DoctorPatientPortalSanityCMP03/target/surefire/surefirebooter-20261003074053359_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
-    <property name="java.runtime.version" value="17.0.20.1+10-LTS"/>
+    <property name="java.runtime.version" value="17.0.13+11"/>
     <property name="user.name" value="studioai"/>
     <property name="path.separator" value=":"/>
     <property name="os.version" value="6.12.47-0-virt"/>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="file.encoding" value="UTF-8"/>
     <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
-    <property name="java.vendor.version" value="Corretto-17.0.20.10.1"/>
+    <property name="java.vendor.version" value="Temurin-17.0.13+11"/>
     <property name="testFailureIgnore" value="true"/>
     <property name="localRepository" value="/app/.m2/repository"/>
-    <property name="java.vendor.url.bug" value="https://github.com/corretto/corretto-17/issues/"/>
+    <property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
     <property name="java.io.tmpdir" value="/tmp"/>
-    <property name="java.version" value="17.0.20.1"/>
+    <property name="java.version" value="17.0.13"/>
     <property name="user.dir" value="/modernize-data/studio-data/TNT1001/APP747084/transformed-code/101/studio-workspace/DoctorPatientPortalSanityCMP03"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="native.encoding" value="UTF-8"/>
     <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib"/>
     <property name="java.vm.info" value="mixed mode, sharing"/>
-    <property name="java.vendor" value="Amazon.com Inc."/>
-    <property name="java.vm.version" value="17.0.20.1+10-LTS"/>
+    <property name="java.vendor" value="Eclipse Adoptium"/>
+    <property name="java.vm.version" value="17.0.13+11"/>
     <property name="java.specification.maintenance.version" value="1"/>
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="updateDrAppointmentCommentStatus_whenExceptionThrown_returnsFalse" classname="com.hms.dao.AppointmentDAOTest" time="0.249">
+  <testcase name="updateDrAppointmentCommentStatus_whenExceptionThrown_returnsFalse" classname="com.hms.dao.AppointmentDAOTest" time="0.265">
     <system-err><![CDATA[java.lang.RuntimeException: DB error
 	at com.hms.dao.AppointmentDAO.updateDrAppointmentCommentStatus(AppointmentDAO.java:190)
 	at com.hms.dao.AppointmentDAOTest.updateDrAppointmentCommentStatus_whenExceptionThrown_returnsFalse(AppointmentDAOTest.java:232)
@@ -132,9 +132,9 @@
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 ]]></system-err>
   </testcase>
-  <testcase name="getAllAppointment_withResults_returnsPopulatedList" classname="com.hms.dao.AppointmentDAOTest" time="0.006"/>
+  <testcase name="getAllAppointment_withResults_returnsPopulatedList" classname="com.hms.dao.AppointmentDAOTest" time="0.007"/>
   <testcase name="updateDrAppointmentCommentStatus_success_returnsTrue" classname="com.hms.dao.AppointmentDAOTest" time="0.002"/>
-  <testcase name="addAppointment_whenExceptionThrown_returnsFalse" classname="com.hms.dao.AppointmentDAOTest" time="0.002">
+  <testcase name="addAppointment_whenExceptionThrown_returnsFalse" classname="com.hms.dao.AppointmentDAOTest" time="0.003">
     <system-err><![CDATA[java.lang.RuntimeException: DB error
 	at com.hms.dao.AppointmentDAO.addAppointment(AppointmentDAO.java:28)
 	at com.hms.dao.AppointmentDAOTest.addAppointment_whenExceptionThrown_returnsFalse(AppointmentDAOTest.java:69)
@@ -288,11 +288,11 @@
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 ]]></system-err>
   </testcase>
-  <testcase name="getAppointmentById_withValidId_returnsAppointment" classname="com.hms.dao.AppointmentDAOTest" time="0.004"/>
-  <testcase name="getAllAppointmentByLoginUser_withResults_returnsPopulatedList" classname="com.hms.dao.AppointmentDAOTest" time="0.004"/>
+  <testcase name="getAppointmentById_withValidId_returnsAppointment" classname="com.hms.dao.AppointmentDAOTest" time="0.003"/>
+  <testcase name="getAllAppointmentByLoginUser_withResults_returnsPopulatedList" classname="com.hms.dao.AppointmentDAOTest" time="0.005"/>
   <testcase name="addAppointment_success_returnsTrue" classname="com.hms.dao.AppointmentDAOTest" time="0.002"/>
   <testcase name="getAllAppointmentByLoginDoctor_withResults_returnsPopulatedList" classname="com.hms.dao.AppointmentDAOTest" time="0.002"/>
-  <testcase name="getAllAppointmentByLoginDoctor_whenExceptionThrown_returnsEmptyList" classname="com.hms.dao.AppointmentDAOTest" time="0.001">
+  <testcase name="getAllAppointmentByLoginDoctor_whenExceptionThrown_returnsEmptyList" classname="com.hms.dao.AppointmentDAOTest" time="0.002">
     <system-err><![CDATA[java.lang.RuntimeException: DB error
 	at com.hms.dao.AppointmentDAO.getAllAppointmentByLoginDoctor(AppointmentDAO.java:107)
 	at com.hms.dao.AppointmentDAOTest.getAllAppointmentByLoginDoctor_whenExceptionThrown_returnsEmptyList(AppointmentDAOTest.java:164)
@@ -370,8 +370,8 @@
 ]]></system-err>
   </testcase>
   <testcase name="getAppointmentById_withNoResult_returnsNull" classname="com.hms.dao.AppointmentDAOTest" time="0.001"/>
-  <testcase name="getAllAppointmentByLoginDoctor_withNoResults_returnsEmptyList" classname="com.hms.dao.AppointmentDAOTest" time="0.001"/>
-  <testcase name="getAllAppointment_whenExceptionThrown_returnsEmptyList" classname="com.hms.dao.AppointmentDAOTest" time="0.002">
+  <testcase name="getAllAppointmentByLoginDoctor_withNoResults_returnsEmptyList" classname="com.hms.dao.AppointmentDAOTest" time="0.002"/>
+  <testcase name="getAllAppointment_whenExceptionThrown_returnsEmptyList" classname="com.hms.dao.AppointmentDAOTest" time="0.001">
     <system-err><![CDATA[java.lang.RuntimeException: DB error
 	at com.hms.dao.AppointmentDAO.getAllAppointment(AppointmentDAO.java:214)
 	at com.hms.dao.AppointmentDAOTest.getAllAppointment_whenExceptionThrown_returnsEmptyList(AppointmentDAOTest.java:278)
@@ -450,7 +450,7 @@
   </testcase>
   <testcase name="constructor_withConnection_createsInstance" classname="com.hms.dao.AppointmentDAOTest" time="0.001"/>
   <testcase name="getAllAppointment_withNoResults_returnsEmptyList" classname="com.hms.dao.AppointmentDAOTest" time="0.001"/>
-  <testcase name="getAllAppointmentByLoginUser_whenExceptionThrown_returnsEmptyList" classname="com.hms.dao.AppointmentDAOTest" time="0.001">
+  <testcase name="getAllAppointmentByLoginUser_whenExceptionThrown_returnsEmptyList" classname="com.hms.dao.AppointmentDAOTest" time="0.002">
     <system-err><![CDATA[java.lang.RuntimeException: DB error
 	at com.hms.dao.AppointmentDAO.getAllAppointmentByLoginUser(AppointmentDAO.java:63)
 	at com.hms.dao.AppointmentDAOTest.getAllAppointmentByLoginUser_whenExceptionThrown_returnsEmptyList(AppointmentDAOTest.java:116)
