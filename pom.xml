@@ -46,6 +46,34 @@
 			<version>3.0.0</version>
 		</dependency>
 
+		<!-- cz-java-0069: Spring Session Data Redis - Externalizes in-memory HttpSession to Amazon ElastiCache (Redis) -->
+		<!-- Replaces in-memory HttpSession with Spring Session backed by Redis for EKS horizontal scaling -->
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-data-redis</artifactId>
+			<version>2.7.4</version>
+		</dependency>
+
+		<!-- cz-java-0069: Lettuce Redis client used by Spring Session to connect to ElastiCache -->
+		<dependency>
+			<groupId>io.lettuce</groupId>
+			<artifactId>lettuce-core</artifactId>
+			<version>6.2.6.RELEASE</version>
+		</dependency>
+
+		<!-- cz-java-0069: Spring Web required for AbstractHttpSessionApplicationInitializer -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>5.3.30</version>
+		</dependency>
+
+		<!-- cz-java-0069: Spring Data Redis - Redis repository support for Spring Session -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<version>2.7.14</version>
+		</dependency>
 
 	</dependencies>
 	<build>

@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  doctor-patient-portal:
+    image: doctor-patient-portal:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: doctor-patient-portal
+    ports:
+      - "8080:8080"
+    environment:
+      # Redis / Spring Session
+      REDIS_HOST: ${REDIS_HOST:-localhost}
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+      # Database
+      DB_HOST: ${DB_HOST:-localhost}
+      DB_PORT: ${DB_PORT:-3306}
+      DB_NAME: ${DB_NAME:-hospital}
+      DB_USER: ${DB_USER:-root}
+      DB_PASSWORD: ${DB_PASSWORD:-changeme}
+      # JVM
+      JAVA_OPTS: "-Xms256m -Xmx512m -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/./urandom"
+      TZ: UTC
+    networks:
+      - app-network
+    restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge

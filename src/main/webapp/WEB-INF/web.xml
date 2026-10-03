@@ -1,27 +1,87 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                             http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
 
-<web-app>
-  <display-name>Archetype Created Web Application</display-name>
+  <display-name>Doctor-Patient-Portal</display-name>
+
+  <!--
+    cz-java-0069: Spring Session – Redis-backed HttpSession filter.
+    This filter intercepts every request and replaces the container's
+    in-memory HttpSession with a Spring Session backed by Amazon ElastiCache
+    for Redis.  Sessions are therefore shared across all EKS pod replicas and
+    survive container restarts, eliminating the in-memory session blocker.
+
+    The Spring application context is bootstrapped by
+    ContextLoaderListener below, which loads RedisSessionConfig.
+  -->
+  <listener>
+    <listener-class>
+      org.springframework.web.context.ContextLoaderListener
+    </listener-class>
+  </listener>
+
+  <context-param>
+    <param-name>contextClass</param-name>
+    <param-value>
+      org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+    </param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>com.hms.config.RedisSessionConfig</param-value>
+  </context-param>
+
+  <!--
+    cz-java-0069: springSessionRepositoryFilter must be declared BEFORE any other filter
+    so that every downstream filter and servlet sees the Redis-backed session.
+  -->
+  <filter>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <filter-class>
+      org.springframework.web.filter.DelegatingFilterProxy
+    </filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+  </filter-mapping>
+
+  <!-- Existing servlet declarations preserved unchanged -->
   <servlet>
-  	<servlet-name>myuserServlet</servlet-name>
-  	<display-name>myuserServlet</display-name>
-  	<description></description>
-  	<servlet-class>com.hms.user.servlet.myuserServlet</servlet-class>
+    <servlet-name>myuserServlet</servlet-name>
+    <display-name>myuserServlet</display-name>
+    <description></description>
+    <servlet-class>com.hms.user.servlet.myuserServlet</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>MyNewServlet</servlet-name>
-  	<display-name>MyNewServlet</display-name>
-  	<description></description>
-  	<servlet-class>com.hms.user.servlet.MyNewServlet</servlet-class>
+    <servlet-name>MyNewServlet</servlet-name>
+    <display-name>MyNewServlet</display-name>
+    <description></description>
+    <servlet-class>com.hms.user.servlet.MyNewServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>myuserServlet</servlet-name>
-  	<url-pattern>/myuserServlet</url-pattern>
+    <servlet-name>myuserServlet</servlet-name>
+    <url-pattern>/myuserServlet</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>MyNewServlet</servlet-name>
-  	<url-pattern>/MyNewServletRegisterUser</url-pattern>
+    <servlet-name>MyNewServlet</servlet-name>
+    <url-pattern>/MyNewServletRegisterUser</url-pattern>
   </servlet-mapping>
+
+  <!-- Health-check endpoint servlet (containerization mandatory requirement) -->
+  <servlet>
+    <servlet-name>HealthCheckServlet</servlet-name>
+    <servlet-class>com.hms.servlet.HealthCheckServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HealthCheckServlet</servlet-name>
+    <url-pattern>/health</url-pattern>
+  </servlet-mapping>
+
 </web-app>

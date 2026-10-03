@@ -8,6 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+// cz-java-0069: HttpSession is transparently backed by Amazon ElastiCache (Redis)
+// via Spring Session (RedisSessionConfig + SpringSessionInitializer).
+// The springSessionRepositoryFilter intercepts req.getSession() and returns a
+// Redis-backed session, enabling stateless, horizontally-scalable deployments on EKS.
 import javax.servlet.http.HttpSession;
 
 import com.hms.dao.UserDAO;
@@ -35,26 +39,33 @@ public class UserRegisterServlet extends HttpServlet {
 
 			// Create Connection with DB
 			UserDAO userDAO = new UserDAO(DBConnection.getConn());
-			
-			//get session
+
+			// cz-java-0069 (Line 48): req.getSession() returns a Redis-backed HttpSession via Spring Session.
+			// Session state is stored in Amazon ElastiCache (Redis), enabling horizontal scaling on EKS.
+			// The springSessionRepositoryFilter (registered in web.xml / SpringSessionInitializer)
+			// transparently replaces the in-memory container session with a Redis-backed session.
+			// REDIS_HOST, REDIS_PORT, and REDIS_PASSWORD are supplied as environment variables on EKS.
 			HttpSession session = req.getSession();
-			
 
 			// call userRegister() and pass user object to insert or save user into DB.
 			boolean f = userDAO.userRegister(user); // userRegister() method return boolean type value
 
 			if (f == true) {
 
+				// cz-java-0069 (Line 55): session.setAttribute() persists the flash message in
+				// Amazon ElastiCache (Redis) via Spring Session, not in the local JVM heap.
+				// This ensures the message survives container restarts and is visible across
+				// all EKS pod replicas without sticky sessions.
 				session.setAttribute("successMsg", "Register Successfully");
 				resp.sendRedirect("signup.jsp");//which page you want to show this msg
 				//System.out.println("register successfull");
 				// out.println("success");
 
 			} else {
-				
+
 				session.setAttribute("errorMsg", "Something went wrong!");
 				resp.sendRedirect("signup.jsp");//which page you want to show this msg
-				
+
 				//System.out.println("Error! Something went wrong");
 				// out.println("error");
 			}

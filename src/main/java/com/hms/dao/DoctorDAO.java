@@ -6,9 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-//import javax.security.auth.message.callback.PrivateKeyCallback.Request;
-import javax.servlet.http.HttpSession;
-
+// cz-java-0063: HttpSession externalized to Amazon ElastiCache (Redis) via Spring Session (RedisSessionConfig).
 import com.hms.entity.Doctor;
 
 public class DoctorDAO {
