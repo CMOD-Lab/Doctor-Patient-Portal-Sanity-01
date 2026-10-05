@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-//import javax.security.auth.message.callback.PrivateKeyCallback.Request;
-import javax.servlet.http.HttpSession;
+// HttpSession import removed - session management is handled externally
+// by Spring Session backed by Amazon ElastiCache (Redis) via DelegatingFilterProxy.
 
 import com.hms.entity.Doctor;
 

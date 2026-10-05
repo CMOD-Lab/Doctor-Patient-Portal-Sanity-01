@@ -9,6 +9,10 @@
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<spring.version>5.3.27</spring.version>
+		<spring.session.version>2.7.4</spring.session.version>
+		<spring.data.redis.version>2.7.14</spring.data.redis.version>
+		<lettuce.version>6.2.7.RELEASE</lettuce.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -46,6 +50,52 @@
 			<version>3.0.0</version>
 		</dependency>
 
+		<!-- Spring Core (required for Spring Session) -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- Spring Session Data Redis - externalizes HttpSession to Redis (ElastiCache) -->
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-data-redis</artifactId>
+			<version>${spring.session.version}</version>
+		</dependency>
+
+		<!-- Spring Data Redis -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<version>${spring.data.redis.version}</version>
+		</dependency>
+
+		<!-- Lettuce Redis client -->
+		<dependency>
+			<groupId>io.lettuce</groupId>
+			<artifactId>lettuce-core</artifactId>
+			<version>${lettuce.version}</version>
+		</dependency>
+
+		<!-- Jackson for Redis serialization -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.14.2</version>
+		</dependency>
 
 	</dependencies>
 	<build>

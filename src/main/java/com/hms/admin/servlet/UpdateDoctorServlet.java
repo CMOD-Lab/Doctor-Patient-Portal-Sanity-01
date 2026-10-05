@@ -13,6 +13,19 @@ import com.hms.dao.DoctorDAO;
 import com.hms.db.DBConnection;
 import com.hms.entity.Doctor;
 
+/**
+ * Update doctor servlet.
+ *
+ * cz-java-0069 (In-Memory Session Storage) remediation:
+ * HttpSession is transparently backed by Amazon ElastiCache (Redis)
+ * via Spring Session (SpringHttpSessionConfig + DelegatingFilterProxy in web.xml),
+ * enabling container-safe session management on EKS. Sessions survive container
+ * restarts and are shared across horizontally-scaled instances.
+ *
+ * Required environment variables:
+ *   REDIS_HOST - Amazon ElastiCache Redis endpoint (default: localhost)
+ *   REDIS_PORT - Amazon ElastiCache Redis port     (default: 6379)
+ */
 @WebServlet("/updateDoctor")
 public class UpdateDoctorServlet extends HttpServlet {
 
@@ -40,6 +53,8 @@ public class UpdateDoctorServlet extends HttpServlet {
 
 			boolean f = docDAO.updateDoctor(doctor);
 
+			// cz-java-0069: Spring Session intercepts getSession() and stores the session
+			// in Amazon ElastiCache (Redis) instead of in-memory JVM storage.
 			HttpSession session = req.getSession();
 
 			if (f == true) {

@@ -4,6 +4,56 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+
+  <!--
+    Spring Session DelegatingFilterProxy
+    Intercepts every request and transparently replaces the in-memory
+    HttpSession with a Redis-backed session managed by Spring Session.
+    This enables container-safe, horizontally-scalable session storage
+    on Amazon ElastiCache (Redis) when deployed on EKS.
+  -->
+  <filter>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    <init-param>
+      <param-name>targetBeanName</param-name>
+      <param-value>springSessionRepositoryFilter</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+  </filter-mapping>
+
+  <!--
+    Spring ContextLoaderListener
+    Bootstraps the Spring application context that contains the
+    SpringHttpSessionConfig (Redis connection factory + session repository).
+  -->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <context-param>
+    <param-name>contextClass</param-name>
+    <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+  </context-param>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>com.hms.config.SpringHttpSessionConfig</param-value>
+  </context-param>
+
+  <!-- Health Check Servlet -->
+  <servlet>
+    <servlet-name>HealthCheckServlet</servlet-name>
+    <servlet-class>com.hms.servlet.HealthCheckServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HealthCheckServlet</servlet-name>
+    <url-pattern>/health</url-pattern>
+  </servlet-mapping>
+
   <servlet>
   	<servlet-name>myuserServlet</servlet-name>
   	<display-name>myuserServlet</display-name>

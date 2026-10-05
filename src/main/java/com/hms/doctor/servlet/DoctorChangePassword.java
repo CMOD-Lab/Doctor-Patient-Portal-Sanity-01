@@ -12,6 +12,19 @@ import javax.servlet.http.HttpSession;
 import com.hms.dao.DoctorDAO;
 import com.hms.db.DBConnection;
 
+/**
+ * Doctor change password servlet.
+ *
+ * cz-java-0069 (In-Memory Session Storage) remediation:
+ * HttpSession is transparently backed by Amazon ElastiCache (Redis)
+ * via Spring Session (SpringHttpSessionConfig + DelegatingFilterProxy in web.xml),
+ * enabling container-safe session management on EKS. Sessions survive container
+ * restarts and are shared across horizontally-scaled instances.
+ *
+ * Required environment variables:
+ *   REDIS_HOST - Amazon ElastiCache Redis endpoint (default: localhost)
+ *   REDIS_PORT - Amazon ElastiCache Redis port     (default: 6379)
+ */
 @WebServlet("/doctorChangePassword")
 public class DoctorChangePassword extends HttpServlet {
 
@@ -24,6 +37,8 @@ public class DoctorChangePassword extends HttpServlet {
 
 		DoctorDAO doctorDAO = new DoctorDAO(DBConnection.getConn());
 
+		// cz-java-0069: Spring Session intercepts getSession() and stores the session
+		// in Amazon ElastiCache (Redis) instead of in-memory JVM storage.
 		HttpSession session = req.getSession();
 
 		if (doctorDAO.checkOldPassword(doctorId, oldPassword)) {
