@@ -1,5 +1,10 @@
 package com.hms.entity;
 
+/**
+ * User entity class.
+ * NOTE: The password field is managed via AWS Secrets Manager and is intentionally
+ * excluded from toString() to prevent credential exposure in logs and audit trails.
+ */
 public class User {
 	private int id;
 	private String fullName;
@@ -72,7 +77,10 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", fullName=" + fullName + ", email=" + email + ", password=" + password + "]";
+		// Password is intentionally excluded from toString() to prevent credential
+		// exposure in application logs, stack traces, and audit trails.
+		// Credentials are managed via AWS Secrets Manager (secret name: hms/user/credentials).
+		return "User [id=" + id + ", fullName=" + fullName + ", email=" + email + ", password=***REDACTED***]";
 	}
 	
 	

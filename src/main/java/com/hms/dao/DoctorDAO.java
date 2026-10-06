@@ -6,9 +6,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-//import javax.security.auth.message.callback.PrivateKeyCallback.Request;
-import javax.servlet.http.HttpSession;
-
+// HttpSession import removed: session state is now managed by Spring Session
+// backed by Amazon ElastiCache for Redis (cr-java-0065).
 import com.hms.entity.Doctor;
 
 public class DoctorDAO {
