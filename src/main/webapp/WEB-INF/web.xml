@@ -1,27 +1,80 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                             http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
 
-<web-app>
-  <display-name>Archetype Created Web Application</display-name>
+  <display-name>Doctor-Patient-Portal</display-name>
+
+  <!--
+    Spring Session Redis Filter (cz-java-0063 fix):
+    DelegatingFilterProxy intercepts all requests and delegates to
+    springSessionRepositoryFilter bean, which replaces the in-memory
+    HttpSession with a Redis-backed session stored in Amazon ElastiCache.
+    This ensures sessions survive container restarts and scale horizontally
+    across multiple EKS pod instances.
+  -->
+  <filter>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+  </filter-mapping>
+
+  <!--
+    Spring Context Loader: bootstraps the Spring application context
+    which initialises the SpringHttpSessionConfig and Redis connection.
+  -->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <context-param>
+    <param-name>contextClass</param-name>
+    <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+  </context-param>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>com.hms.config.SpringHttpSessionConfig</param-value>
+  </context-param>
+
+  <!-- Existing servlets -->
   <servlet>
-  	<servlet-name>myuserServlet</servlet-name>
-  	<display-name>myuserServlet</display-name>
-  	<description></description>
-  	<servlet-class>com.hms.user.servlet.myuserServlet</servlet-class>
+    <servlet-name>myuserServlet</servlet-name>
+    <display-name>myuserServlet</display-name>
+    <description></description>
+    <servlet-class>com.hms.user.servlet.myuserServlet</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>MyNewServlet</servlet-name>
-  	<display-name>MyNewServlet</display-name>
-  	<description></description>
-  	<servlet-class>com.hms.user.servlet.MyNewServlet</servlet-class>
+    <servlet-name>MyNewServlet</servlet-name>
+    <display-name>MyNewServlet</display-name>
+    <description></description>
+    <servlet-class>com.hms.user.servlet.MyNewServlet</servlet-class>
   </servlet>
+
+  <!-- Health Check Servlet (containerization requirement) -->
+  <servlet>
+    <servlet-name>HealthCheckServlet</servlet-name>
+    <display-name>HealthCheckServlet</display-name>
+    <description>Kubernetes liveness/readiness health check endpoint</description>
+    <servlet-class>com.hms.health.HealthCheckServlet</servlet-class>
+  </servlet>
+
   <servlet-mapping>
-  	<servlet-name>myuserServlet</servlet-name>
-  	<url-pattern>/myuserServlet</url-pattern>
+    <servlet-name>myuserServlet</servlet-name>
+    <url-pattern>/myuserServlet</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>MyNewServlet</servlet-name>
-  	<url-pattern>/MyNewServletRegisterUser</url-pattern>
+    <servlet-name>MyNewServlet</servlet-name>
+    <url-pattern>/MyNewServletRegisterUser</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>HealthCheckServlet</servlet-name>
+    <url-pattern>/health</url-pattern>
+  </servlet-mapping>
+
 </web-app>

@@ -46,6 +46,42 @@
 			<version>3.0.0</version>
 		</dependency>
 
+		<!-- Spring Session Data Redis: externalizes HttpSession to Amazon ElastiCache (Redis)
+		     to fix server-side session blocker (cz-java-0063). Sessions survive container
+		     restarts and scale horizontally across multiple instances on EKS. -->
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-data-redis</artifactId>
+			<version>2.7.4</version>
+		</dependency>
+
+		<!-- Spring Data Redis (Lettuce client) for Redis connectivity -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<version>2.7.14</version>
+		</dependency>
+
+		<!-- Lettuce Redis client (non-blocking, thread-safe) -->
+		<dependency>
+			<groupId>io.lettuce</groupId>
+			<artifactId>lettuce-core</artifactId>
+			<version>6.2.6.RELEASE</version>
+		</dependency>
+
+		<!-- Spring Context required for Spring Session configuration -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>5.3.30</version>
+		</dependency>
+
+		<!-- Spring Web required for DelegatingFilterProxy -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>5.3.30</version>
+		</dependency>
 
 	</dependencies>
 	<build>

@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-//import javax.security.auth.message.callback.PrivateKeyCallback.Request;
-import javax.servlet.http.HttpSession;
+// cz-java-0063: HttpSession import removed from DAO layer - session management belongs
+// in the servlet layer. Sessions are now backed by Amazon ElastiCache (Redis) via
+// Spring Session's SessionRepositoryFilter registered in web.xml.
+// Removed unused javax.servlet.http.HttpSession import.
 
 import com.hms.entity.Doctor;
 
