@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  doctor-patient-portal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: doctor-patient-portal:latest
+    container_name: doctor-patient-portal
+    ports:
+      - "8080:8080"
+    environment:
+      # Redis / Amazon ElastiCache
+      REDIS_HOST: ${REDIS_HOST:-localhost}
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      # MySQL / Amazon RDS
+      DB_HOST: ${DB_HOST:-localhost}
+      DB_PORT: ${DB_PORT:-3306}
+      DB_NAME: ${DB_NAME:-hospital}
+      DB_USER: ${DB_USER:-root}
+      DB_PASSWORD: ${DB_PASSWORD:-changeme}
+      # JVM
+      JAVA_OPTS: "-Xms256m -Xmx512m -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/./urandom"
+      TZ: UTC
+    volumes:
+      - ./config:/opt/tomcat/conf/extra:ro
+    networks:
+      - app-network
+    restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge

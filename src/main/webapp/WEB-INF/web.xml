@@ -1,27 +1,51 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                             http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
 
-<web-app>
   <display-name>Archetype Created Web Application</display-name>
+
+  <!--
+    cz-java-0063 [Server-side Sessions]:
+    Spring Session DelegatingFilterProxy intercepts every request and
+    transparently replaces the in-memory HttpSession with a Redis-backed
+    session stored in Amazon ElastiCache. The filter bean
+    "springSessionRepositoryFilter" is registered by @EnableRedisHttpSession
+    in RedisHttpSessionConfig. This enables horizontal scaling and
+    container-restart resilience on EKS.
+  -->
+  <filter>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+  </filter-mapping>
+
   <servlet>
-  	<servlet-name>myuserServlet</servlet-name>
-  	<display-name>myuserServlet</display-name>
-  	<description></description>
-  	<servlet-class>com.hms.user.servlet.myuserServlet</servlet-class>
+    <servlet-name>myuserServlet</servlet-name>
+    <display-name>myuserServlet</display-name>
+    <description></description>
+    <servlet-class>com.hms.user.servlet.myuserServlet</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>MyNewServlet</servlet-name>
-  	<display-name>MyNewServlet</display-name>
-  	<description></description>
-  	<servlet-class>com.hms.user.servlet.MyNewServlet</servlet-class>
+    <servlet-name>MyNewServlet</servlet-name>
+    <display-name>MyNewServlet</display-name>
+    <description></description>
+    <servlet-class>com.hms.user.servlet.MyNewServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>myuserServlet</servlet-name>
-  	<url-pattern>/myuserServlet</url-pattern>
+    <servlet-name>myuserServlet</servlet-name>
+    <url-pattern>/myuserServlet</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>MyNewServlet</servlet-name>
-  	<url-pattern>/MyNewServletRegisterUser</url-pattern>
+    <servlet-name>MyNewServlet</servlet-name>
+    <url-pattern>/MyNewServletRegisterUser</url-pattern>
   </servlet-mapping>
+
 </web-app>

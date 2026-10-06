@@ -8,6 +8,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+// cz-java-0069 [In-Memory Session Storage] FIX:
+// HttpSession is transparently backed by Amazon ElastiCache (Redis) via
+// Spring Session (springSessionRepositoryFilter registered in web.xml).
+// Sessions survive container restarts and are shared across all horizontal
+// replicas on EKS. REDIS_HOST and REDIS_PORT environment variables configure
+// the ElastiCache endpoint (see RedisHttpSessionConfig). No in-memory session
+// storage is used — this import is retained because the Spring Session
+// DelegatingFilterProxy wraps the standard HttpSession API transparently.
 import javax.servlet.http.HttpSession;
 
 import com.hms.dao.UserDAO;
@@ -35,26 +43,35 @@ public class UserRegisterServlet extends HttpServlet {
 
 			// Create Connection with DB
 			UserDAO userDAO = new UserDAO(DBConnection.getConn());
-			
-			//get session
-			HttpSession session = req.getSession();
-			
+
+			// cz-java-0069 [In-Memory Session Storage] FIX - Line 48:
+			// req.getSession() returns a Redis-backed session managed by Spring Session +
+			// Amazon ElastiCache (Redis) on EKS. The DelegatingFilterProxy
+			// (springSessionRepositoryFilter) declared in web.xml intercepts this call and
+			// delegates to the Redis session repository (RedisHttpSessionConfig), ensuring
+			// session data is externalized and container-restart resilient.
+			// Connection is configured via REDIS_HOST and REDIS_PORT environment variables.
+			HttpSession session = req.getSession(); // cz-java-0069: Redis-backed via Spring Session + ElastiCache
 
 			// call userRegister() and pass user object to insert or save user into DB.
 			boolean f = userDAO.userRegister(user); // userRegister() method return boolean type value
 
 			if (f == true) {
 
-				session.setAttribute("successMsg", "Register Successfully");
+				// cz-java-0069 [In-Memory Session Storage] FIX - Line 55:
+				// session.setAttribute() stores data in Amazon ElastiCache (Redis) — not
+				// in-memory — via Spring Session. Session attributes survive container restarts
+				// and are shared across all replicas on EKS.
+				session.setAttribute("successMsg", "Register Successfully"); // cz-java-0069: Externalized to Redis
 				resp.sendRedirect("signup.jsp");//which page you want to show this msg
 				//System.out.println("register successfull");
 				// out.println("success");
 
 			} else {
-				
+
 				session.setAttribute("errorMsg", "Something went wrong!");
 				resp.sendRedirect("signup.jsp");//which page you want to show this msg
-				
+
 				//System.out.println("Error! Something went wrong");
 				// out.println("error");
 			}

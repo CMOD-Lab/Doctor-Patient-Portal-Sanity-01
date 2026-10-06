@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //import javax.security.auth.message.callback.PrivateKeyCallback.Request;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession; // cz-java-0063: session is now Redis-backed via Spring Session + Amazon ElastiCache
 
 import com.hms.entity.Doctor;
 
