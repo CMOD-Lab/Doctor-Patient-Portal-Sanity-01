@@ -46,6 +46,21 @@
 			<version>3.0.0</version>
 		</dependency>
 
+		<!-- AWS Secrets Manager SDK (cr-java-0113: Lack of Externalized Secrets) -->
+		<!-- Enables retrieval of credentials and API keys from AWS Secrets Manager -->
+		<!-- instead of embedding them in source code or property files.           -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-secretsmanager</artifactId>
+			<version>1.12.470</version>
+		</dependency>
+
+		<!-- AWS SDK core (required transitive dependency for aws-java-sdk-secretsmanager) -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-core</artifactId>
+			<version>1.12.470</version>
+		</dependency>
 
 	</dependencies>
 	<build>
