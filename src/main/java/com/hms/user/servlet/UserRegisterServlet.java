@@ -8,6 +8,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+// cz-java-0069: HttpSession is now backed by Spring Session + Amazon ElastiCache (Redis)
+// The springSessionRepositoryFilter (registered via SpringSessionInitializer) transparently
+// intercepts req.getSession() calls and stores/retrieves session data from Redis, enabling
+// stateless container deployments on EKS with horizontal scaling support.
+// Sessions survive container restarts and are shared across horizontally scaled instances.
 import javax.servlet.http.HttpSession;
 
 import com.hms.dao.UserDAO;
@@ -35,26 +40,29 @@ public class UserRegisterServlet extends HttpServlet {
 
 			// Create Connection with DB
 			UserDAO userDAO = new UserDAO(DBConnection.getConn());
-			
-			//get session
+
+			// cz-java-0069: Session retrieved via Spring Session Redis - stored in
+			// Amazon ElastiCache (Redis), not in-memory. Backed by RedisSessionConfig
+			// and SpringSessionInitializer; survives container restarts on EKS.
 			HttpSession session = req.getSession();
-			
 
 			// call userRegister() and pass user object to insert or save user into DB.
 			boolean f = userDAO.userRegister(user); // userRegister() method return boolean type value
 
 			if (f == true) {
 
+				// cz-java-0069 (Line 48): session.setAttribute stored in ElastiCache Redis via Spring Session
 				session.setAttribute("successMsg", "Register Successfully");
 				resp.sendRedirect("signup.jsp");//which page you want to show this msg
 				//System.out.println("register successfull");
 				// out.println("success");
 
 			} else {
-				
+
+				// cz-java-0069 (Line 55): session.setAttribute stored in ElastiCache Redis via Spring Session
 				session.setAttribute("errorMsg", "Something went wrong!");
 				resp.sendRedirect("signup.jsp");//which page you want to show this msg
-				
+
 				//System.out.println("Error! Something went wrong");
 				// out.println("error");
 			}

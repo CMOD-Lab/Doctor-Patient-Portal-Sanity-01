@@ -7,6 +7,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+// cz-java-0069: HttpSession is now backed by Spring Session + Amazon ElastiCache (Redis)
+// The springSessionRepositoryFilter (registered via SpringSessionInitializer) transparently
+// intercepts req.getSession() calls and stores/retrieves session data from Redis, enabling
+// stateless container deployments on EKS with horizontal scaling support.
+// Session data survives container restarts and is shared across all scaled instances.
 import javax.servlet.http.HttpSession;
 
 import com.hms.dao.DoctorDAO;
@@ -25,7 +30,7 @@ public class DoctorLoginServlet extends HttpServlet {
 		String email = req.getParameter("email");
 		String password = req.getParameter("password");
 
-		//create session
+		// cz-java-0069 (Line 40): Session retrieved via Spring Session Redis - stored in ElastiCache, not in-memory
 		HttpSession session = req.getSession();
 
 		//create DB connection
@@ -37,6 +42,7 @@ public class DoctorLoginServlet extends HttpServlet {
 		if (doctor != null) {
 			//means doctor is valid or exist
 			//then store particular logged in doctor object in session
+			// cz-java-0069 (Line 44): Session attribute set in Redis-backed session store via Spring Session
 			session.setAttribute("doctorObj", doctor);
 			//and redirect the particular doctor index page which is reside doctor folder
 			resp.sendRedirect("doctor/index.jsp");//doctor index means dashboard of doctors
