@@ -17,6 +17,8 @@
 		<jakarta.el.version>4.0.0</jakarta.el.version>
 	</properties>
 	<dependencies>
+		<!-- Mockito for mocking in unit tests -->
+
 		<!-- JUnit 5 for Java 17 compatibility (replaces JUnit 4) -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -28,6 +30,24 @@
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
 			<version>${junit.jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-params</artifactId>
+			<version>${junit.jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>5.4.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>5.4.0</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -94,6 +114,25 @@
 				<configuration>
 					<useModulePath>false</useModulePath>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.11</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 		<finalName>Doctor-Patient-Portal</finalName>
